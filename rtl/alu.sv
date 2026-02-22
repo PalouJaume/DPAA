@@ -15,6 +15,7 @@ module alu
                  'b001 : result_o = a_i + ~b_i + 1;
                  'b010 : result_o = a_i & b_i;
                  'b011 : result_o = a_i | b_i;
+                 'b100 : result_o = a_i ^ b_i;
                  'b101 : result_o = ($signed(a_i) < $signed(b_i)) ? 'd1 : 'd0;
                  default : result_o = 'b0;
             endcase
