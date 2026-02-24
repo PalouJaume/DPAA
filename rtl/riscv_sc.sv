@@ -33,7 +33,7 @@ module riscv_sc
         logic[1:0] ResultSrc;
         logic MemWrite;
         logic ALUSrc;
-        logic[1:0] ImmSrc;
+        logic[2:0] ImmSrc;
         logic RegWrite;
         logic[2:0] ALUControl;
 
@@ -72,10 +72,12 @@ module riscv_sc
 
         always_comb
             case (ImmSrc)
-                2'b00 : ImmExt = {{20{Instr[31]}}, Instr[31:20]};   // I-type
-                2'b01 : ImmExt = {{20{Instr[31]}}, Instr[31:25], Instr[11:7]};  // S-Type
-                2'b10 : ImmExt = {{19{Instr[31]}}, Instr[31], Instr[7], Instr[30:25], Instr[11:8], 1'b0}; // B-Type
-                2'b11 : ImmExt = {{12{Instr[31]}}, Instr[19:12], Instr[20], Instr[30:21], 1'b0}; // J-Type
+                3'b000 : ImmExt = {{20{Instr[31]}}, Instr[31:20]};   // I-type
+                3'b001 : ImmExt = {{20{Instr[31]}}, Instr[31:25], Instr[11:7]};  // S-Type
+                3'b010 : ImmExt = {{19{Instr[31]}}, Instr[31], Instr[7], Instr[30:25], Instr[11:8], 1'b0}; // B-Type
+                3'b011 : ImmExt = {Instr[31:12], 12'b0}; // U-Type
+                3'b100 : ImmExt = {{12{Instr[31]}}, Instr[19:12], Instr[20], Instr[30:21], 1'b0}; // J-Type
+                default : ImmExt = 'x;
             endcase
 
         always_comb
@@ -109,16 +111,17 @@ module riscv_sc
 
         always_comb
             case (ResultSrc)
-                2'b00 : Result = ALUResult;
-                2'b01 : Result = ReadData;
-                2'b10 : Result = PCPlus4;
+                2'b00 : Result = ALUResult; // R-type
+                2'b01 : Result = ReadData; // lw
+                2'b10 : Result = PCPlus4; // jal
+                2'b11 : Result = ImmExt; // lui
                 default : Result = '0;
             endcase
 
         always_comb
             case (PCSrc) 
-                1'b0 : pc_d = PCPlus4;
-                1'b1 : pc_d = PCTarget;
+                1'b0 : pc_d = PCPlus4; // jal
+                1'b1 : pc_d = PCTarget; // Normal flow
             endcase 
 
 endmodule : riscv_sc
