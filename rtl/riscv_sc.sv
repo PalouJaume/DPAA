@@ -61,14 +61,14 @@ module riscv_sc
                                   .*);
 
         regfile #() regfile_i(.clk_i(clk_i),
-                                  .rst_ni(rst_ni),
-                                  .a1_i(Instr[19:15]),
-                                  .a2_i(Instr[24:20]),
-                                  .a3_i(Instr[11:7]),
-                                  .we3_i(RegWrite),
-                                  .wd3_i(Result),
-                                  .rd1_o(SrcA),
-                                  .rd2_o(WriteData));
+                              .rst_ni(rst_ni),
+                              .a1_i(Instr[19:15]),
+                              .a2_i(Instr[24:20]),
+                              .a3_i(Instr[11:7]),
+                              .we3_i(RegWrite),
+                              .wd3_i(Result),
+                              .rd1_o(SrcA),
+                              .rd2_o(WriteData));
 
         always_comb
             case (ImmSrc)
