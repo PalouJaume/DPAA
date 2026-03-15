@@ -11,7 +11,7 @@ TARGET ?= riscv_sc
 BINARY ?= app
 
 # SystemVerilog source files
-SOURCES = $(wildcard rtl/*.sv verif/*.sv tb/*.sv)
+SOURCES = $(wildcard rtl/*.sv rtl/BasicCells/*.sv rtl/SingleCycleProcesor/*.sv rtl/MultipleCycleProcessor/*.sv verif/*.sv tb/*.sv)
 
 # DPI C++ source files
 SOURCES += verif/riscv.cpp
