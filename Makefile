@@ -11,7 +11,7 @@ TARGET ?= riscv_sc
 BINARY ?= app
 
 # SystemVerilog source files
-SOURCES = $(wildcard rtl/*.sv rtl/BasicCells/*.sv rtl/SingleCycleProcesor/*.sv rtl/MultipleCycleProcessor/*.sv verif/*.sv tb/*.sv)
+SOURCES = $(wildcard rtl/*.sv rtl/BasicCells/*.sv rtl/SingleCycleProcessor/*.sv rtl/MultipleCycleProcessor/*.sv verif/*.sv tb/*.sv)
 
 # DPI C++ source files
 SOURCES += verif/riscv.cpp
@@ -134,7 +134,7 @@ distclean: clean
 # Run verible for each SystemVerilog source file
 verible/%.sv: %.sv
 	# Copy files to build directory
-	mkdir -p verible/rtl verible/tb verible/verif
+	mkdir -p $(dir $@)
 	cp $< $@
 
 	# Format SystemVerilog code
